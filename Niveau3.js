@@ -58,6 +58,9 @@ create()
     this.physics.add.collider(this.player, this.lave,this.death,null,this);
     this.lave.setCollisionByProperty({mortal:true});
 
+    this.physics.add.collider(this.player, this.pics, this.death, null, this);
+    this.pics.setCollisionByProperty({mortal:true});
+
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     this.cameras.main.setSize(config.width, config.height);
     this.cameras.main.startFollow (this.player);
