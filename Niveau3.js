@@ -7,7 +7,7 @@ class Niveau3 extends Phaser.Scene{
 preload()
 {
     //Chargement des assets
-    //___________________________________________
+    //_____________________
     this.load.image('perso', 'assets/perso.png');
     this.load.image('ennemi', 'assets/ennemi.png');
     this.load.image('bordure', 'assets/bordure.png');
@@ -16,12 +16,12 @@ preload()
     this.load.image('fond', 'assets/background.png');
 }
 //Fin preload
-//_________________________________________________________________________________________________________________________
+//____________________________________________________________________________________________________________
 
 create()
 {
     //Création de la map
-    //_________________________________________
+    //__________________
     this.map = this.make.tilemap({ key: 'map'});
     this.physics.world.setBounds(0,0, this.map.widthInPixels, this.map.heightInPixels);
     this.tileset = this.map.addTilesetImage('tileset_bien_fait', 'tileset');
@@ -34,19 +34,19 @@ create()
     this.murs = this.map.createDynamicLayer('murs', this.tileset, 0, 0);
 
     //Placement et définition du personnage
-    //____________________________________________________
+    //_____________________________________
     this.player = this.physics.add.image(50,400, 'perso');
     this.player.direction = 'right';
     this.player.setBounce(0);
     this.player.setCollideWorldBounds(true);
 
     //Placement et définition du boss
-    //________________________________________________________
+    //_______________________________
     //this.ennemi = this.physics.add.image(400, 50, 'ennemi');
     //this.ennemi.setCollideWorldBounds(true);
     
     //Mise en place des contrôles clavier
-    //___________________________________________________
+    //___________________________________
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.physics.add.collider(this.player, this.poutres);
