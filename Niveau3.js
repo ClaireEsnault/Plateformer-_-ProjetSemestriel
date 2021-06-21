@@ -13,7 +13,7 @@ preload()
     this.load.image('bordure', 'assets/bordure.png');
     this.load.tilemapTiledJSON('map', 'ma_map.json');
     this.load.image('tileset', 'assets/tileset_bien_fait.png');
-    this.load.image('fond', 'assets/background.png');
+    this.load.image('fond', 'assets/fond.png');
 }
 //Fin preload
 //____________________________________________________________________________________________________________
