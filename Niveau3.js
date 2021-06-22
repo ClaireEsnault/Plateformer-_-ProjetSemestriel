@@ -14,6 +14,8 @@ preload()
     this.load.tilemapTiledJSON('map', 'ma_map.json');
     this.load.image('tileset', 'assets/tileset_bien_fait.png');
     this.load.image('fond', 'assets/fond.png');
+    this.load.image('boss', 'assets/boss.png');
+    this.load.image('portail', 'assets/portail.png');
 }
 //Fin preload
 //____________________________________________________________________________________________________________
@@ -35,12 +37,16 @@ create()
 
     //Placement et définition du personnage
     //_____________________________________
-    this.player = this.physics.add.image(50,400, 'perso');
+    this.joueur = this.physics.add.group();
+    this.player = this.joueur.create(50,400, 'perso');
     this.player.direction = 'right';
-    this.player.setBounce(0);
     this.player.setCollideWorldBounds(true);
 
+    this.miroir = this.physics.add.group();
+    this.portail = this.miroir.create(3825, 450, 'portail').body.setAllowGravity(false);
     //Placement et définition du boss
+    this.boss = this.physics.add.group();
+    new boss(this,500, 700, 'boss').body.setAllowGravity(false);
     //_______________________________
     //this.ennemi = this.physics.add.image(400, 50, 'ennemi');
     //this.ennemi.setCollideWorldBounds(true);
@@ -48,6 +54,8 @@ create()
     //Mise en place des contrôles clavier
     //___________________________________
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.physics.add.collider(this.player, this.miroir, this.hitPortail, null, this);
 
     this.physics.add.collider(this.player, this.poutres);
     this.poutres.setCollisionByProperty({collides:true});
@@ -60,10 +68,14 @@ create()
 
     this.physics.add.collider(this.player, this.pics, this.death, null, this);
     this.pics.setCollisionByProperty({mortal:true});
-
+    
+    
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     this.cameras.main.setSize(config.width, config.height);
     this.cameras.main.startFollow (this.player);
+    
+    /*this.physics.add.collider(this.boss, this.poutres);
+    this.physics.add.collider(this.boss, this.murs);*/
 }
 //Fin create
 //_________________________________________________________________________________________________________________________
@@ -94,6 +106,21 @@ update()
     if(this.player.body.blocked.down){
         saut = 1;
     }
+    
+    for(var i = 0; i < this.boss.getChildren().length; i++){
+            let bosses = this.boss.getChildren()[0];
+            if(bosses.ia(this.player)){
+                if(bosses.direction == 'right') {
+                    
+                this.projectiles.create(bosses.x, bosses.y, 'balle').setVelocityX(300).body.setAllowGravity(false);
+                }
+                
+                else{
+                this.projectiles.create(bosses.x, bosses.y, 'balle').setVelocityX(-300).body.setAllowGravity(false);
+
+                }
+            }
+        }
   
 }
 //Fin update
@@ -103,6 +130,10 @@ death(){
     vie = 0;
     this.physics.pause();
     this.player.setTint('0xff0000');
+}
+    
+hitPortail(joueur, miroir){
+    this.scene.start('Menu');
 }
 
 //FIN SCENE
